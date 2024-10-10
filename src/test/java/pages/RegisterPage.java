@@ -34,6 +34,18 @@ public class RegisterPage extends PageObject {
     @FindBy(xpath = "//input[@id='customer.ssn']")
     WebElement ssnField;
 
+    @FindBy(xpath = "//input[@id='customer.username']")
+    WebElement userNameField;
+
+    @FindBy(xpath = "//input[@id='customer.password']")
+    WebElement passwordField;
+
+    @FindBy(xpath = "//input[@id='repeatedPassword']")
+    WebElement repeatedPasswordField;
+
+    @FindBy(xpath = "//input[@type='submit' and @value='Register']")
+    WebElement registerButton;
+
 
     public RegisterPage(WebDriver driver) {
         super(driver);

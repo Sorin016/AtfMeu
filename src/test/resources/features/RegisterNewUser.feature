@@ -4,12 +4,14 @@ Feature:Register new user
   Scenario Outline: Register new user
     Given User navigates to the home page
     And User clicks on Register button
-    And User insert <firstName>, <lastName>
-    And User insert <city>, <address>
-#    And User insert <state>, <zipCode>
-#    And User insert <phone>, <ssn>
+    And User insert all necessary information for register page
+      | firstName | lastName | address   | city     | state    | zipCode | phone   | ssn   |
+      | sorea     | cuce     | korolinko | chisinau | chisinau | 2025    | 0690377 | 12345 |
+    And User has <error> message
+      | userNameIsRequired    | passwordIsRequired    | confirmPasswordIsRequired          |
+      | Username is required. | Password is required. | Password confirmation is required. |
+
 
     Examples:
-      | username | password | city     | firstName | lastName | browserName | address   | state    | zipCode | phone  | ssn   |
-      | sorin    | 123      | chisinau | sorea     | cuce     | chrome      | korolinko | chisinau | 2025    | 060372 | 12345 |
-#      | sorin    | 123      |      |           |          | firefox     |
+      | username | password | error                         |
+      | sorin    | 123      | Complite all mandatory fields |
