@@ -1,5 +1,6 @@
 package stepDefinition;
 
+import forDataTable.EnterUserNamePassAndConfirmPass;
 import forDataTable.ErrorMessages;
 import forDataTable.RegisterNewUserFields;
 import forDataTable.Store;
@@ -19,7 +20,6 @@ import static org.junit.Assert.*;
 
 public class RegisterNewUser extends AbstractStepDefinifion {
     private static Store store = new Store();
-    private static List<RegisterNewUserFields> registerNewUserFieldsList = new ArrayList<>();
 
     @Given("User navigates to the home page")
     public void userNavigatesToTheHomePage() {
@@ -44,27 +44,40 @@ public class RegisterNewUser extends AbstractStepDefinifion {
     public void user_insert(DataTable dataTable) throws InterruptedException {
         List<Map<String, String>> testDataForRegistrationNewUser =
                 dataTable.asMaps(String.class, String.class);
-
-        for (Map<String, String> colums : testDataForRegistrationNewUser) {
-            store.addInputFieldsValues(new RegisterNewUserFields(
-                    colums.get("firstName"),
-                    colums.get("lastName"),
-                    colums.get("address"),
-                    colums.get("city"),
-                    colums.get("state"),
-                    colums.get("zipCode"),
-                    colums.get("phone"),
-                    colums.get("ssn")
-            ));
-            sendKey(registerPage.getFirstNameField(), colums.get("firstName"));
-            sendKey(registerPage.getLastNameField(), colums.get("lastName"));
-            sendKey(registerPage.getAddressField(), colums.get("address"));
-            sendKey(registerPage.getCityField(), colums.get("city"));
-            sendKey(registerPage.getStateField(), colums.get("state"));
-            sendKey(registerPage.getZipCodeField(), colums.get("zipCode"));
-            sendKey(registerPage.getPhoneField(), colums.get("phone"));
-            sendKey(registerPage.getSsnField(), colums.get("ssn"));
-            click(registerPage.getRegisterButton());
+        if (dataTable.asMaps().get(0).keySet().contains("firstName")) {
+            for (Map<String, String> colums : testDataForRegistrationNewUser) {
+                store.addInputFieldsValues(new RegisterNewUserFields(
+                        colums.get("firstName"),
+                        colums.get("lastName"),
+                        colums.get("address"),
+                        colums.get("city"),
+                        colums.get("state"),
+                        colums.get("zipCode"),
+                        colums.get("phone"),
+                        colums.get("ssn")
+                ));
+                sendKey(registerPage.getFirstNameField(), colums.get("firstName"));
+                sendKey(registerPage.getLastNameField(), colums.get("lastName"));
+                sendKey(registerPage.getAddressField(), colums.get("address"));
+                sendKey(registerPage.getCityField(), colums.get("city"));
+                sendKey(registerPage.getStateField(), colums.get("state"));
+                sendKey(registerPage.getZipCodeField(), colums.get("zipCode"));
+                sendKey(registerPage.getPhoneField(), colums.get("phone"));
+                sendKey(registerPage.getSsnField(), colums.get("ssn"));
+                click(registerPage.getRegisterButton());
+            }
+        } else {
+            for (Map<String, String> colums : testDataForRegistrationNewUser) {
+                store.insertUserNameAndPasswordAndConfirmPassword(new EnterUserNamePassAndConfirmPass(
+                        colums.get("userName"),
+                        colums.get("password"),
+                        colums.get("confirmPassword")
+                ));
+                sendKey(registerPage.getUserNameField(), colums.get("userName"));
+                sendKey(registerPage.getPasswordField(), colums.get("password"));
+                sendKey(registerPage.getRepeatedPasswordField(), colums.get("confirmPassword"));
+                click(registerPage.getRegisterButton());
+            }
         }
     }
 

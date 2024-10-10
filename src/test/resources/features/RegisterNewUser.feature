@@ -10,6 +10,9 @@ Feature:Register new user
     And User has <error> message
       | userNameIsRequired    | passwordIsRequired    | confirmPasswordIsRequired          |
       | Username is required. | Password is required. | Password confirmation is required. |
+    And User insert all necessary information for register page
+      | userName | password | confirmPassword |
+      | sorin    | 123      | 123             |
 
 
     Examples:

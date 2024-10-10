@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class Store {
     private List<ErrorMessages> errorMessagesList = new ArrayList<>();
     private List<RegisterNewUserFields> registerNewUserFieldsList = new ArrayList<>();
+    private List<EnterUserNamePassAndConfirmPass> userNameAndPassAndConfirmPasses = new ArrayList<>();
 
     public void addErrorMessageValues(ErrorMessages errorMessages) {
         this.errorMessagesList.add(errorMessages);
@@ -16,6 +17,10 @@ public class Store {
 
     public void addInputFieldsValues(RegisterNewUserFields registerNewUserFields) {
         this.registerNewUserFieldsList.add(registerNewUserFields);
+    }
+
+    public void insertUserNameAndPasswordAndConfirmPassword(EnterUserNamePassAndConfirmPass enterUserNamePassAndConfirmPass) {
+        this.userNameAndPassAndConfirmPasses.add(enterUserNamePassAndConfirmPass);
     }
 
 }
