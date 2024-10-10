@@ -5,6 +5,8 @@ import io.cucumber.java.en.Given;
 import stepDefinition.Important.AbstractStepDefinifion;
 
 import static actions.Actions.click;
+import static actions.Actions.sendKey;
+import static org.junit.Assert.*;
 
 public class RegisterNewUser extends AbstractStepDefinifion {
 
@@ -13,13 +15,28 @@ public class RegisterNewUser extends AbstractStepDefinifion {
 
     }
     @And("User clicks on {} button")
-    public void userClicksOnButton() {
-        click(homePage.registerLink());
+    public void userClicksOnButton(String buttonName) throws InterruptedException {
+        switch (buttonName){
+            case "Register":
+                click(homePage.getRegisterLink());
+                break;
+            default:
+                System.out.println("alegeti butonul potrivit");
+        }
+
+        assertEquals("Signing up is easy!" ,
+                registerPage.getSigningUpIsEasyTextOnRegisterPage().getText());
     }
-    @And("User insert")
-    public void user_insert() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    @And("User insert {},{}")
+    public void user_insert(String firstName,String lastName,String city,String address){
+            sendKey(registerPage.getFirstNameField(),firstName);
+            sendKey(registerPage.getLastNameField(),lastName);
+            sendKey(registerPage.getAddressField(),address);
+            sendKey(registerPage.getCityField(),city);
+//            sendKey(registerPage.getLastNameField(),lastName);
+//            sendKey(registerPage.getLastNameField(),lastName);
+//            sendKey(registerPage.getLastNameField(),lastName);
+//            sendKey(registerPage.getLastNameField(),lastName);
     }
 
 }

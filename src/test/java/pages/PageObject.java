@@ -5,7 +5,7 @@ import org.openqa.selenium.support.PageFactory;
 import stepDefinition.Important.AbstractStepDefinifion;
 
 
-public class PageObject extends AbstractStepDefinifion {
+public class PageObject {
     protected static WebDriver driver;
 
     public PageObject(WebDriver driver) {

@@ -1,9 +1,8 @@
 package stepDefinition.Important;
 
-import actions.Actions;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pages.HomePage;
+import pages.RegisterPage;
 import util.PropretyLoader;
 
 import java.util.logging.Logger;
@@ -16,5 +15,6 @@ public class AbstractStepDefinifion  {
 
 
     public HomePage homePage=new HomePage(driver);
+    public RegisterPage registerPage=new RegisterPage(driver);
 
 }
