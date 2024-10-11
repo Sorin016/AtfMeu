@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EnterUserNamePassAndConfirmPass {
-    private String userNameField;
-    private String passwordField;
+//    private String userNameField;
+//    private String passwordField;
     private String confirmPasswordField;
 }

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import pages.ErrorsMessagesRegistrationPage;
 import pages.HomePage;
 import pages.RegisterPage;
+import pages.RegisterWithSuccessPage;
 import util.PropretyLoader;
 
 
@@ -17,5 +18,6 @@ public class AbstractStepDefinifion {
     public HomePage homePage = new HomePage(driver);
     public RegisterPage registerPage = new RegisterPage(driver);
     public ErrorsMessagesRegistrationPage errorsMessagesRegistrationPage = new ErrorsMessagesRegistrationPage(driver);
+    public RegisterWithSuccessPage registerWithSuccessPage = new RegisterWithSuccessPage(driver);
 
 }

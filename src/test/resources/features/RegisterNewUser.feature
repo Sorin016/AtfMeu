@@ -10,11 +10,10 @@ Feature:Register new user
     And User has <error> message
       | userNameIsRequired    | passwordIsRequired    | confirmPasswordIsRequired          |
       | Username is required. | Password is required. | Password confirmation is required. |
-    And User insert all necessary information for register page
-      | userName | password | confirmPassword |
-      | sorin    | 123      | 123             |
+    And User insert <username> and <password>
+    Then User has a <message>
 
 
     Examples:
-      | username | password | error                         |
-      | sorin    | 123      | Complite all mandatory fields |
+      | username | password | error                         | message              |
+      | madam    | 123      | Complite all mandatory fields | register with sucess |

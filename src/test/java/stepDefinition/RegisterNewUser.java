@@ -1,15 +1,15 @@
 package stepDefinition;
 
-import forDataTable.EnterUserNamePassAndConfirmPass;
 import forDataTable.ErrorMessages;
 import forDataTable.RegisterNewUserFields;
 import forDataTable.Store;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import stepDefinition.Important.AbstractStepDefinifion;
+import util.DataKey;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +17,10 @@ import static actions.Actions.click;
 
 import static actions.Actions.sendKey;
 import static org.junit.Assert.*;
+import static util.DataKey.USERNAME;
+import static util.ScenarioContext.getData;
+import static util.ScenarioContext.saveData;
+import static util.WaitUntil.waitUnitCondition;
 
 public class RegisterNewUser extends AbstractStepDefinifion {
     private static Store store = new Store();
@@ -66,18 +70,6 @@ public class RegisterNewUser extends AbstractStepDefinifion {
                 sendKey(registerPage.getSsnField(), colums.get("ssn"));
                 click(registerPage.getRegisterButton());
             }
-        } else {
-            for (Map<String, String> colums : testDataForRegistrationNewUser) {
-                store.insertUserNameAndPasswordAndConfirmPassword(new EnterUserNamePassAndConfirmPass(
-                        colums.get("userName"),
-                        colums.get("password"),
-                        colums.get("confirmPassword")
-                ));
-                sendKey(registerPage.getUserNameField(), colums.get("userName"));
-                sendKey(registerPage.getPasswordField(), colums.get("password"));
-                sendKey(registerPage.getRepeatedPasswordField(), colums.get("confirmPassword"));
-                click(registerPage.getRegisterButton());
-            }
         }
     }
 
@@ -101,5 +93,22 @@ public class RegisterNewUser extends AbstractStepDefinifion {
                         errorsMessagesRegistrationPage.getRepeatPasswordErrorMessageOnRegisrationPage().getText());
             }
         }
+    }
+
+    @And("User insert {} and {}")
+    public void userInsertFildAndFild(String userName, String password) throws InterruptedException {
+        sendKey(registerPage.getUserNameField(), userName);
+        sendKey(registerPage.getPasswordField(), password);
+        sendKey(registerPage.getRepeatedPasswordField(), password);
+        saveData(USERNAME, userName);
+        saveData(DataKey.PASSWORD, password);
+        click(registerPage.getRegisterButton());
+    }
+
+    @Then("User has a {}")
+    public void userHasMessage(String successfulyRegistrationText) {
+        successfulyRegistrationText = "Welcome " + getData(USERNAME);
+        assertEquals(registerWithSuccessPage.getWelcomeText().getText(),successfulyRegistrationText);
+        waitUnitCondition(registerWithSuccessPage.getWelcomeText());
     }
 }
