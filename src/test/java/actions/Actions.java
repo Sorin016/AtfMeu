@@ -1,6 +1,5 @@
 package actions;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class Actions {
@@ -9,7 +8,7 @@ public class Actions {
         element.sendKeys(value);
     }
 
-    public static void isDisplayed(WebElement element) {
+    public static void isDisplayed(WebElement element) {;
         element.isDisplayed();
     }
 
@@ -17,4 +16,5 @@ public class Actions {
         Thread.sleep(3000);
         element.click();
     }
+
 }

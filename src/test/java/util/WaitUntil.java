@@ -2,8 +2,6 @@ package util;
 
 import org.openqa.selenium.WebElement;
 
-import java.util.concurrent.TimeUnit;
-
 public class WaitUntil {
 
     private static long DEFAULT_RETRY_INTERVAL_MS = 2000;
@@ -17,7 +15,7 @@ public class WaitUntil {
     }
 
     public static Object waitUnitCondition(WebElement condition) {
-        if (condition.isDisplayed() == true)
+        if (condition.isDisplayed())
             waitForRetry(DEFAULT_RETRY_INTERVAL_MS);
         return null;
     }

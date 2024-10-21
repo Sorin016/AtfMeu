@@ -2,5 +2,7 @@ package util;
 
 public enum DataKey {
     USERNAME,
-    PASSWORD;
+    PASSWORD,
+    NEW_OPENED_ACCOUNT,
+    ACCOUNT_TYPE;
 }
