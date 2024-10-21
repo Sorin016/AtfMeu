@@ -12,6 +12,7 @@ public class AbstractStepDefinifion {
     public static String homePageUrl = PropretyLoader.loadProperty("homePageUrl");
     public static String APILogin = PropretyLoader.loadProperty("APILogin");
     public static String APIOpenNewAccount = PropretyLoader.loadProperty("APIOpenNewAccount");
+    public static String APIAccountsOverview = PropretyLoader.loadProperty("APIAccountsOverview");
 
 
     public LoginPage loginPage = new LoginPage(driver);

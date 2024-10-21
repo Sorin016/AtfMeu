@@ -2,6 +2,7 @@ package stepDefinition.API_Classes;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.response.Response;
@@ -14,8 +15,7 @@ import java.io.FileNotFoundException;
 import static io.restassured.RestAssured.*;
 import static org.apache.http.HttpStatus.SC_OK;
 import static stepDefinition.Important.AbstractStepDefinifion.*;
-import static util.DataKey.PASSWORD;
-import static util.DataKey.USERNAME;
+import static util.DataKey.*;
 import static util.ScenarioContext.getData;
 import static util.ScenarioContext.saveData;
 
@@ -46,18 +46,19 @@ public class API_Login {
     }
 
     @And("User opens new {} and {} for {}")
-    public void userOpensNewAccount(String accountType, int accountID,int customerID) {
+    public void userOpensNewAccount(String accountType, int accountID, int customerID) {
         if (accountType.equalsIgnoreCase("saveing")) {
             given()
                     .spec(requestSpecification)
                     .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
                     .queryParam("customerId", customerID)
-                    .queryParam("newAccountType",0)
+                    .queryParam("newAccountType", 0)
                     .queryParam("fromAccountId", accountID)
                     .post(APIOpenNewAccount)
                     .then()
                     .statusCode(SC_OK)
                     .log().all();
+            saveData(API_CUSTOMER_ID, customerID);
         } else {
             given()
                     .spec(requestSpecification)
@@ -69,8 +70,20 @@ public class API_Login {
                     .then()
                     .statusCode(SC_OK)
                     .log().all();
+            saveData(API_CUSTOMER_ID, customerID);
         }
 
+    }
+
+    @When("User checks that new account was created with success")
+    public void userChecksThatNewAccountWasCreatedWithSuccess() {
+        given()
+                .spec(requestSpecification)
+                .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
+                .get(APIAccountsOverview+getData(API_CUSTOMER_ID)+"/accounts")
+                .then()
+                .statusCode(SC_OK)
+                .log().all();
     }
 
 }

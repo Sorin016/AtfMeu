@@ -4,5 +4,7 @@ public enum DataKey {
     USERNAME,
     PASSWORD,
     NEW_OPENED_ACCOUNT,
-    ACCOUNT_TYPE;
+    ACCOUNT_TYPE,
+    API_CUSTOMER_ID
+    ;
 }
