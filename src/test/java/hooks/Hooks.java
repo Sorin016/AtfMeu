@@ -5,6 +5,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import stepDefinition.Important.AbstractStepDefinifion;
 
+import static ConnectionToDB.ConnectionToDB.*;
 import static driverManager.DriverManagerFactory.getDriver;
 import static driverManager.DriverManagerFactory.quitDriver;
 import static driverManager.DriverType.CHROME;
@@ -18,8 +19,20 @@ public class Hooks extends AbstractStepDefinifion {
         getDriver(CHROME);
     }
 
+    @Before("@DB")
+    public void beforeDB() {
+        getSessionFactory();
+        startSession();
+    }
+
     @After("@UI")
     public void afterTest() {
         quitDriver();
+    }
+
+    @After("@DB")
+    public void afterDB() {
+        shutdownDBConnection();
+        closeSession();
     }
 }

@@ -1,28 +1,30 @@
 package stepDefinition.UI_Classes;
 
+import entity.User;
 import forDataTable.ErrorMessages;
 import forDataTable.RegisterNewUserFields;
 import forDataTable.Store;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.OpenNewAccountPage;
 import stepDefinition.Important.AbstractStepDefinifion;
 
 import java.util.List;
 import java.util.Map;
 
-import static actions.Actions.*;
-import static org.junit.Assert.*;
-import static util.DataKey.PASSWORD;
-import static util.DataKey.USERNAME;
+import static actions.Actions.click;
+import static actions.Actions.sendKey;
+import static actionsToDB.PostRequestForRegistration.postRequestinDB;
+import static actionsToDB.UpdateRequestForRegistration.updateRequestinDB;
+import static org.junit.Assert.assertEquals;
+import static util.DataKey.*;
 import static util.ScenarioContext.getData;
 import static util.ScenarioContext.saveData;
 import static util.WaitUntil.waitUnitCondition;
 
 public class RegisterNewUser extends AbstractStepDefinifion {
+    public static User user;
     private static Store store = new Store();
 
     @When("User navigates to the {}")
@@ -82,7 +84,12 @@ public class RegisterNewUser extends AbstractStepDefinifion {
                 sendKey(registerPage.getZipCodeField(), colums.get("zipCode"));
                 sendKey(registerPage.getPhoneField(), colums.get("phone"));
                 sendKey(registerPage.getSsnField(), colums.get("ssn"));
+                saveData(USER_FOR_DB, colums.get("firstName"));
                 click(registerPage.getRegisterButton());
+                user = new User(colums.get("firstName"), colums.get("lastName"),
+                        colums.get("address"), colums.get("city"), colums.get("state"), colums.get("zipCode"),
+                        colums.get("phone"), colums.get("ssn"));
+                postRequestinDB(user);
             }
         }
     }
@@ -117,6 +124,8 @@ public class RegisterNewUser extends AbstractStepDefinifion {
         saveData(USERNAME, userName);
         saveData(PASSWORD, password);
         click(registerPage.getRegisterButton());
+        user = new User(userName, password, password);
+        updateRequestinDB(user);
     }
 
 

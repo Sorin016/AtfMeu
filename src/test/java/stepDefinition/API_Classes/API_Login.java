@@ -14,6 +14,8 @@ import java.io.FileNotFoundException;
 
 import static io.restassured.RestAssured.*;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertTrue;
 import static stepDefinition.Important.AbstractStepDefinifion.*;
 import static util.DataKey.*;
 import static util.ScenarioContext.getData;
@@ -23,11 +25,10 @@ import static util.ScenarioContext.saveData;
 public class API_Login {
 
     RequestSpecification requestSpecification =
-            new RequestSpecBuilder().setBaseUri(homePageUrl).addHeader("Content-Type", "application/json").build();
-//    RequestSpecification basicAuth = new RequestSpecBuilder()
-//            .addRequestSpecification(requestSpecification)  // Use baseSpec as a base
-//            .addHeader(getData(USERNAME).toString(), getData(PASSWORD).toString())  // Add authentication header
-//            .build();
+            new RequestSpecBuilder()
+                    .setBaseUri(homePageUrl)
+                    .addHeader("Content-Type", "application/json")
+                    .build();
 
     @Given("User login on the site with {} and {}")
     public void userLoginOnTheSite(String username, String password) {
@@ -52,7 +53,7 @@ public class API_Login {
                     .spec(requestSpecification)
                     .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
                     .queryParam("customerId", customerID)
-                    .queryParam("newAccountType", 0)
+                    .queryParam("newAccountType", 1)
                     .queryParam("fromAccountId", accountID)
                     .post(APIOpenNewAccount)
                     .then()
@@ -64,7 +65,7 @@ public class API_Login {
                     .spec(requestSpecification)
                     .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
                     .queryParam("customerId", customerID)
-                    .queryParam("newAccountType", 1)
+                    .queryParam("newAccountType", 0)
                     .queryParam("fromAccountId", accountID)
                     .post("/parabank/services_proxy/bank/createAccount")
                     .then()
@@ -72,6 +73,8 @@ public class API_Login {
                     .log().all();
             saveData(API_CUSTOMER_ID, customerID);
         }
+        saveData(API_ACCOUNT_TYPE, accountType);
+
 
     }
 
@@ -80,10 +83,16 @@ public class API_Login {
         given()
                 .spec(requestSpecification)
                 .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
-                .get(APIAccountsOverview+getData(API_CUSTOMER_ID)+"/accounts")
+                .get(APIAccountsOverview + getData(API_CUSTOMER_ID) + "/accounts")
                 .then()
+                .body("customerId[1]", equalTo(getData(API_CUSTOMER_ID)))
                 .statusCode(SC_OK)
                 .log().all();
+        assertTrue(given()
+                .spec(requestSpecification)
+                .when().auth().basic(getData(USERNAME).toString(), getData(PASSWORD).toString())
+                .get(APIAccountsOverview + getData(API_CUSTOMER_ID) + "/accounts").body().prettyPrint().toString()
+                .equalsIgnoreCase(getData(API_ACCOUNT_TYPE).toString()));
     }
 
 }
