@@ -15,6 +15,7 @@ import java.util.Map;
 
 import static actions.Actions.click;
 import static actions.Actions.sendKey;
+import static actionsToDB.GetRequestForRegistration.getFirstNameRequestFromDB;
 import static actionsToDB.PostRequestForRegistration.postRequestinDB;
 import static actionsToDB.UpdateRequestForRegistration.updateRequestinDB;
 import static org.junit.Assert.assertEquals;
@@ -84,8 +85,8 @@ public class RegisterNewUser extends AbstractStepDefinifion {
                 sendKey(registerPage.getZipCodeField(), colums.get("zipCode"));
                 sendKey(registerPage.getPhoneField(), colums.get("phone"));
                 sendKey(registerPage.getSsnField(), colums.get("ssn"));
-                saveData(USER_FOR_DB, colums.get("firstName"));
                 click(registerPage.getRegisterButton());
+                saveData(FIRSTNAME_FOR_DB, colums.get("firstName"));
                 user = new User(colums.get("firstName"), colums.get("lastName"),
                         colums.get("address"), colums.get("city"), colums.get("state"), colums.get("zipCode"),
                         colums.get("phone"), colums.get("ssn"));
@@ -126,6 +127,7 @@ public class RegisterNewUser extends AbstractStepDefinifion {
         click(registerPage.getRegisterButton());
         user = new User(userName, password, password);
         updateRequestinDB(user);
+        getFirstNameRequestFromDB(user);
     }
 
 
@@ -134,6 +136,7 @@ public class RegisterNewUser extends AbstractStepDefinifion {
         if (messageText.contains("register with sucess")) {
             messageText = "Welcome " + getData(USERNAME);
             assertEquals(registerWithSuccessPage.getWelcomeText().getText(), messageText);
+            assertEquals(getData(FIRSTNAME_FOR_DB), getFirstNameRequestFromDB(user));
             waitUnitCondition(registerWithSuccessPage.getWelcomeText());
         } else if (messageText.contains("Accounts Overview")) {
             messageText = "Accounts Overview";

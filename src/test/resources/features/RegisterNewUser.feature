@@ -6,7 +6,7 @@ Feature:Register new user
     Given User clicks on Register button
     And User inserts all necessary information for register page
       | firstName | lastName | address   | city     | state    | zipCode | phone   | ssn   |
-      | kirkorov  | cuce     | korolinko | chisinau | chisinau | 2025    | 0690377 | 12345 |
+      | Markiz5   | cuce     | korolinko | chisinau | chisinau | 2025    | 0690377 | 12345 |
     And User has <error> message
       | userNameIsRequired    | passwordIsRequired    | confirmPasswordIsRequired          |
       | Username is required. | Password is required. | Password confirmation is required. |
@@ -16,7 +16,7 @@ Feature:Register new user
 
     Examples:
       | username | password | error                         | message              |
-      | vasesa   | 1234     | Complite all mandatory fields | register with sucess |
+      | Mar345   | 1234     | Complite all mandatory fields | register with sucess |
       | level1   | 123      | Complite all mandatory fields | register with sucess |
 
   @UI

@@ -5,20 +5,12 @@ import entity.User;
 
 import java.io.Serializable;
 
-import static stepDefinition.UI_Classes.RegisterNewUser.user;
-import static util.DataKey.USERNAME;
-import static util.DataKey.USER_FOR_DB;
+import static util.DataKey.FIRSTNAME_FOR_DB;
 import static util.ScenarioContext.getData;
 
 public class UpdateRequestForRegistration extends ConnectionToDB implements Serializable {
-    public static String username = user.getUsername();
-    public static String password = user.getPassword();
-    public static String confirmPassword = user.getPassword();
-    public static String firstName = (String) getData(USER_FOR_DB);
 
     public static void updateRequestinDB(User user) {
-
-
         try {
             session.beginTransaction();
             session.createQuery("update User set " +
@@ -26,10 +18,10 @@ public class UpdateRequestForRegistration extends ConnectionToDB implements Seri
                             "confirmPassword = :confirmPassword, " +
                             "username = :username " +
                             "where firstName = :firstName")
-                    .setParameter("password", password)
-                    .setParameter("confirmPassword", confirmPassword)
-                    .setParameter("username", username)
-                    .setParameter("firstName", firstName)
+                    .setParameter("password", user.getPassword())
+                    .setParameter("confirmPassword", user.getPassword())
+                    .setParameter("username", user.getUsername())
+                    .setParameter("firstName", getData(FIRSTNAME_FOR_DB))
                     .executeUpdate();
 
             session.getTransaction().commit();

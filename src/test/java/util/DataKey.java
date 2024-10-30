@@ -7,6 +7,6 @@ public enum DataKey {
     ACCOUNT_TYPE,
     API_CUSTOMER_ID,
     API_ACCOUNT_TYPE,
-    USER_FOR_DB
+    FIRSTNAME_FOR_DB,
     ;
 }
